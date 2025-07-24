@@ -15,6 +15,7 @@ public class PostDetailDto {
     private Long id;
     private String title;
     private String contents;
+    private String category;
     private String authorEmail;
 
 //    관계성 설정을 하지 않았을 때
@@ -32,6 +33,7 @@ public class PostDetailDto {
         return PostDetailDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
+                .category(post.getCategory())
                 .contents(post.getContents())
                 .authorEmail(post.getAuthor().getEmail())
                 .build();

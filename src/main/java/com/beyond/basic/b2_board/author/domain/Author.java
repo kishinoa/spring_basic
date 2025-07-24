@@ -5,10 +5,7 @@ import com.beyond.basic.b2_board.common.domain.BaseTimeEntity;
 import com.beyond.basic.b2_board.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +35,14 @@ public class Author extends BaseTimeEntity {
 
 //    OneToMany는 선택사항, 또한 default가 fetch = FetchType.LAZY
 //    mappedBy에는 ManyToOne쪽에 변수명을 문자열로 지정, fk관리를 반대편(post)쪽에서 한다는 의미 -> 연관관계의 주인설정
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+//    cascade : 부모객체의 변화에 따라 자식객체가 같이 변하는 옵션 1)persist : 저장 2)remove : 삭제
+//    orphanRemoval : 자식의 자식까지 모두 삭제할 경우 orphanRemoval=true 옵션 추가.
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Post> postList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY      )
+    private Address address;
 
 
     public void updatePw(String password) {
